@@ -1,0 +1,11 @@
+{
+  "name": "@stout/hello-npm",
+  "version": "0.1.0",
+  "description": "Minimal, dependency-free npm package — a curated build-from-source sample for Stout end-to-end validation.",
+  "main": "index.js",
+  "files": ["index.js", "README.md"],
+  "scripts": {
+    "test": "node -e \"if(require('./index.js').greeting()!=='hello from a Stout curated build')process.exit(1)\""
+  },
+  "license": "MIT"
+}

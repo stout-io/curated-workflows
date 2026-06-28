@@ -1,0 +1,15 @@
+apiVersion: stout.io/v1
+kind: CuratedWorkflow
+metadata:
+  name: hello-npm
+  description: Minimal, dependency-free npm package — a curated build-from-source sample.
+spec:
+  target:
+    name: "@stout/hello-npm"
+    version: 0.1.0
+    packageType: npm
+  source:
+    repo: https://github.com/stout-io/curated-workflows
+    gitRef: main
+    buildDir: samples/hello-npm
+  strategy: build

@@ -1,0 +1,7 @@
+# Active curated workflows synced into the Stout catalog by the admin console.
+# Order is display order. Add a workflow's metadata.name here to activate it.
+apiVersion: stout.io/v1
+kind: CuratedWorkflowIndex
+workflows:
+  - hello-go
+  - hello-npm

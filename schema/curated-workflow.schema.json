@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://stout.io/schema/curated-workflow.schema.json",
+  "title": "CuratedWorkflow",
+  "type": "object",
+  "required": ["apiVersion", "kind", "metadata", "spec"],
+  "additionalProperties": false,
+  "properties": {
+    "apiVersion": { "const": "stout.io/v1" },
+    "kind": { "const": "CuratedWorkflow" },
+    "metadata": {
+      "type": "object",
+      "required": ["name"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{0,63}$" },
+        "description": { "type": "string", "maxLength": 500 }
+      }
+    },
+    "spec": {
+      "type": "object",
+      "required": ["target", "source", "strategy"],
+      "additionalProperties": false,
+      "properties": {
+        "target": {
+          "type": "object",
+          "required": ["name", "version", "packageType"],
+          "additionalProperties": false,
+          "properties": {
+            "name": { "type": "string", "minLength": 1, "maxLength": 255 },
+            "version": { "type": "string", "minLength": 1, "maxLength": 255 },
+            "packageType": {
+              "type": "string",
+              "enum": ["go", "npm", "python", "ruby", "rust", "maven", "nuget", "php", "dart", "swift"]
+            }
+          }
+        },
+        "source": {
+          "type": "object",
+          "required": ["repo", "gitRef"],
+          "additionalProperties": false,
+          "properties": {
+            "repo": { "type": "string", "format": "uri", "pattern": "^https://" },
+            "gitRef": { "type": "string", "minLength": 1, "maxLength": 255 },
+            "buildDir": { "type": "string", "maxLength": 512 }
+          }
+        },
+        "strategy": { "const": "build" }
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+apiVersion: stout.io/v1
+kind: CuratedWorkflow
+metadata:
+  name: hello-go
+  description: Minimal, dependency-free Go module — a curated build-from-source sample.
+spec:
+  target:
+    name: hello-go
+    version: 0.1.0
+    packageType: go
+  source:
+    repo: https://github.com/stout-io/curated-workflows
+    gitRef: main
+    buildDir: samples/hello-go
+  strategy: build
