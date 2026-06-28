@@ -6,7 +6,7 @@ metadata:
 spec:
   target:
     name: hello
-    version: 0.1.0
+    version: 0.1.1
     packageType: go
   source:
     repo: https://github.com/stout-io/hello-go
