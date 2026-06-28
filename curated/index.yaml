@@ -5,3 +5,4 @@ kind: CuratedWorkflowIndex
 workflows:
   - hello-go
   - hello-npm
+  - hello

@@ -1,0 +1,14 @@
+apiVersion: stout.io/v1
+kind: CuratedWorkflow
+metadata:
+  name: hello
+  description: Minimal root-level Go module (stout-io/hello-go) — built from source.
+spec:
+  target:
+    name: hello
+    version: 0.1.0
+    packageType: go
+  source:
+    repo: https://github.com/stout-io/hello-go
+    gitRef: main
+  strategy: build
