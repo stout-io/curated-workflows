@@ -1,0 +1,21 @@
+# DEFERRED: react's build output lands in build/oss-stable/react (not in-tree packages/react);
+# needs BuildSpec.PackDir before activation. Not in index.yaml. See task #34.
+apiVersion: stout.io/v1
+kind: CuratedWorkflow
+metadata:
+  name: react
+  description: The library for web and native user interfaces — built from source in the facebook/react monorepo.
+spec:
+  target:
+    name: react
+    version: "19.2.7"
+    packageType: npm
+  source:
+    repo: https://github.com/facebook/react
+    gitRef: "v19.2.7"
+    buildDir: packages/react
+  strategy: build
+  build:
+    packageManager: "yarn@1.22.22"
+    installScripts: true
+    buildCommand: "yarn build"

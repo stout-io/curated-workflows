@@ -1,0 +1,17 @@
+apiVersion: stout.io/v1
+kind: CuratedWorkflow
+metadata:
+  name: lodash
+  description: A modern JavaScript utility library — verify-as-published pin (zero-dep, no install scripts).
+spec:
+  target:
+    name: lodash
+    version: "4.18.1"
+    packageType: npm
+  source:
+    repo: https://github.com/lodash/lodash
+    # gitRef has no "v" prefix — lodash tags releases without it.
+    gitRef: "4.18.1"
+  # No build block: this is a verify-as-published pin. The published artifact is
+  # zero-dependency with no install/build scripts, so it ships as-is.
+  strategy: build

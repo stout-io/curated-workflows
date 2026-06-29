@@ -6,3 +6,7 @@ workflows:
   - hello-go
   - hello-npm
   - hello
+  - chalk
+  - lodash
+  - vue
+  - vite

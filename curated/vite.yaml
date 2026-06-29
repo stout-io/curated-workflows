@@ -1,0 +1,24 @@
+apiVersion: stout.io/v1
+kind: CuratedWorkflow
+metadata:
+  name: vite
+  description: Next generation frontend tooling — built from source in the vitejs/vite monorepo.
+spec:
+  target:
+    name: vite
+    version: "8.1.0"
+    packageType: npm
+  source:
+    repo: https://github.com/vitejs/vite
+    gitRef: "v8.1.0"
+    buildDir: packages/vite
+  strategy: build
+  build:
+    packageManager: "pnpm@10.34.3"
+    installScripts: true
+    # Root "build" is `pnpm -r --filter='./packages/*' run build`, which builds
+    # EVERY package in the monorepo (create-vite, plugin-legacy, …). The curated
+    # target is only `vite` (packages/vite), which has its own build script
+    # (premove dist && build-bundle && build-types) producing packages/vite/dist —
+    # so filter the recursive build to just that package. Faster and precise.
+    buildCommand: "pnpm --filter vite build"

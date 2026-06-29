@@ -1,0 +1,14 @@
+apiVersion: stout.io/v1
+kind: CuratedWorkflow
+metadata:
+  name: chalk
+  description: Terminal string styling done right — zero-dependency npm package, source-republished as-is.
+spec:
+  target:
+    name: chalk
+    version: "5.6.2"
+    packageType: npm
+  source:
+    repo: https://github.com/chalk/chalk
+    gitRef: "v5.6.2"
+  strategy: build

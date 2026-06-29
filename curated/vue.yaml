@@ -1,0 +1,19 @@
+apiVersion: stout.io/v1
+kind: CuratedWorkflow
+metadata:
+  name: vue
+  description: The progressive JavaScript framework — built from source in the vuejs/core monorepo.
+spec:
+  target:
+    name: vue
+    version: "3.5.39"
+    packageType: npm
+  source:
+    repo: https://github.com/vuejs/core
+    gitRef: "v3.5.39"
+    buildDir: packages/vue
+  strategy: build
+  build:
+    packageManager: "pnpm@11.9.0"
+    installScripts: true
+    buildCommand: "pnpm build vue"

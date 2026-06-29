@@ -53,8 +53,8 @@
           "properties": {
             "packageManager": {
               "type": "string",
-              "description": "Pins the JS package manager. Empty means the build-runner reads the repo's package.json \"packageManager\" field via corepack. May carry a version pin, e.g. \"yarn@1.22.19\".",
-              "enum": ["npm", "yarn", "pnpm"]
+              "description": "Pins the JS package manager: npm, yarn, or pnpm, optionally with a version pin (e.g. \"yarn@1.22.22\", \"pnpm@11.9.0\"). Empty means the build-runner reads the repo's package.json \"packageManager\" field via corepack.",
+              "pattern": "^(npm|yarn|pnpm)(@\\S+)?$"
             },
             "installScripts": {
               "type": "boolean",
