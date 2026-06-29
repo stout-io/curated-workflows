@@ -6,7 +6,7 @@ metadata:
 spec:
   target:
     name: hello-go
-    version: 0.1.0
+    version: 0.2.0
     packageType: go
   source:
     repo: https://github.com/stout-io/curated-workflows
