@@ -45,7 +45,33 @@
             "buildDir": { "type": "string", "maxLength": 512 }
           }
         },
-        "strategy": { "const": "build" }
+        "strategy": { "const": "build" },
+        "build": {
+          "type": "object",
+          "description": "Optional build-from-source configuration. When present, the build-runner installs the dev toolchain WITH lifecycle scripts, runs the build command, and packs the BUILT output. When absent the strategy runs its default source-republish path (install --ignore-scripts + pack) unchanged. Authored by the curated workflow, never by the untrusted source repo.",
+          "additionalProperties": false,
+          "properties": {
+            "packageManager": {
+              "type": "string",
+              "description": "Pins the JS package manager. Empty means the build-runner reads the repo's package.json \"packageManager\" field via corepack. May carry a version pin, e.g. \"yarn@1.22.19\".",
+              "enum": ["npm", "yarn", "pnpm"]
+            },
+            "installScripts": {
+              "type": "boolean",
+              "description": "When true, runs the dependency install WITH lifecycle scripts (the dev toolchain a real build needs). When false the install runs with scripts disabled (the source-republish posture)."
+            },
+            "buildCommand": {
+              "type": "string",
+              "description": "The build step run after install, e.g. \"npm run build\". Empty means no build step (install + pack only).",
+              "maxLength": 512
+            },
+            "packCommand": {
+              "type": "string",
+              "description": "Overrides the artifact-pack step. Empty means the strategy's default pack (e.g. \"npm pack\"), which packs into a clean dedicated directory.",
+              "maxLength": 512
+            }
+          }
+        }
       }
     }
   }
