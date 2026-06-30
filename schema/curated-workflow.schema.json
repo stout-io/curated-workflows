@@ -46,6 +46,28 @@
           }
         },
         "strategy": { "const": "build" },
+        "resources": {
+          "type": "object",
+          "description": "Optional per-workflow build resource override. When absent, the build dispatcher uses a SMALL per-package-type default (1cpu/2Gi for the common source-republish case) so the build co-schedules on an already-running isolated node instead of forcing a full cold-node autoscale. Set this LARGER only for genuinely heavy build-from-source workflows (vue/vite/react) that need a big node. Server-authored (this curated repo), never the untrusted source repo. Empty fields fall back to the default.",
+          "additionalProperties": false,
+          "properties": {
+            "cpu": {
+              "type": "string",
+              "description": "Kubernetes CPU request/limit, e.g. \"1\", \"4\", \"500m\".",
+              "pattern": "^[0-9]+(m|\\.[0-9]+)?$"
+            },
+            "memory": {
+              "type": "string",
+              "description": "Kubernetes memory request/limit, e.g. \"2Gi\", \"8Gi\".",
+              "pattern": "^[0-9]+(Mi|Gi|M|G)$"
+            },
+            "ephemeralStorage": {
+              "type": "string",
+              "description": "Ephemeral-storage request/limit, e.g. \"10Gi\", \"20Gi\".",
+              "pattern": "^[0-9]+(Mi|Gi|M|G)$"
+            }
+          }
+        },
         "build": {
           "type": "object",
           "description": "Optional build-from-source configuration. When present, the build-runner installs the dev toolchain WITH lifecycle scripts, runs the build command, and packs the BUILT output. When absent the strategy runs its default source-republish path (install --ignore-scripts + pack) unchanged. Authored by the curated workflow, never by the untrusted source repo.",
@@ -68,6 +90,11 @@
             "packCommand": {
               "type": "string",
               "description": "Overrides the artifact-pack step. Empty means the strategy's default pack (e.g. \"npm pack\"), which packs into a clean dedicated directory.",
+              "maxLength": 512
+            },
+            "packDir": {
+              "type": "string",
+              "description": "Optional directory UNDER THE CLONE ROOT to pack from when the publishable package the pack must ship lives out-of-tree from buildDir. react's root \"yarn build\" writes the publishable react package to build/oss-stable/react, not the in-tree packages/react that buildDir validates, so packing buildDir would ship a broken package. Empty means pack in the build dir (buildDir). Resolved with \"../\" traversal neutralised + symlink containment under the clone root, like buildDir.",
               "maxLength": 512
             }
           }

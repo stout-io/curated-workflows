@@ -13,6 +13,13 @@ spec:
     gitRef: "v3.5.39"
     buildDir: packages/vue
   strategy: build
+  # Heavy build-from-source: the vuejs/core monorepo pnpm install + build needs a
+  # big node, so override the SMALL per-type default (1cpu/2Gi) that a trivial
+  # source-republish gets. Real compiles size up here.
+  resources:
+    cpu: "4"
+    memory: "8Gi"
+    ephemeralStorage: "20Gi"
   build:
     packageManager: "pnpm@11.9.0"
     installScripts: true

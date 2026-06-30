@@ -1,5 +1,8 @@
-# DEFERRED: react's build output lands in build/oss-stable/react (not in-tree packages/react);
-# needs BuildSpec.PackDir before activation. Not in index.yaml. See task #34.
+# react's root "yarn build" writes the publishable react package — including the
+# cjs/ files its package.json "files" field references — to build/oss-stable/react,
+# NOT to the in-tree packages/react. buildDir (packages/react) is where the source
+# is validated; packDir (build/oss-stable/react) is where the built, publishable
+# package is packed from. See BuildSpec.PackDir.
 apiVersion: stout.io/v1
 kind: CuratedWorkflow
 metadata:
@@ -15,7 +18,16 @@ spec:
     gitRef: "v19.2.7"
     buildDir: packages/react
   strategy: build
+  # Heavy build-from-source: the full facebook/react monorepo yarn install + build
+  # needs a big node. Without this override the dispatcher would use the SMALL
+  # default (1cpu/2Gi) and the build would OOM / be starved. The small default is
+  # reserved for trivial source-republish; real compiles size up here.
+  resources:
+    cpu: "4"
+    memory: "8Gi"
+    ephemeralStorage: "20Gi"
   build:
     packageManager: "yarn@1.22.22"
     installScripts: true
     buildCommand: "yarn build"
+    packDir: build/oss-stable/react

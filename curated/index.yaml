@@ -8,5 +8,6 @@ workflows:
   - hello
   - chalk
   - lodash
+  - react
   - vue
   - vite
